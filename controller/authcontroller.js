@@ -1,8 +1,36 @@
-const posts = require('../models/rolemodel')
+const users = require('../models/rolemodel')
 const bcrypt = require('bcrypt');
 const jwt  = require('jsonwebtoken');
 const {SECRET} = require('../models/app')
 const passport = require("passport")
+const nodemailer = require("nodemailer")
+
+
+const mail = async (req,  res) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+          auth: {
+            user:  process.env.SMTP_USERNAME,
+            pass:  process.env.SMTP_PASSWORD
+          }
+        });
+    var mailOptions = {
+            from:'deepabaskaran.b@gmail.com',
+            to:'deepa.doodleblue@gmail.com',
+            subject:'Sending Email using Node.js',
+            html: ` '<p>Click
+            <a href="http://localhost:3000">here</a>
+            welcome to my website</p>'`
+         }
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error)
+        } else{
+            console.log('Email sent:' + info.response)
+        }
+        res.send('sending successfully')
+    })
+    }
 
 //register to (admin,superadmin,user)
 const userRegister = async (userDet,role,res)=>{
@@ -38,6 +66,7 @@ try {
         message:"Hurry! now you are successfully registered.please now login",
         success:true
     });
+
 }
 catch(err){
     console.log(err)
@@ -46,14 +75,14 @@ return res.status(500).json({
     message:"Unable to create your account",
     // err:err,
     success:false
-});
+    });
 }
 }
 
 const userLogin = async(userCred,role,res) =>{
 let {username,password} = userCred;
 //first check if the username is in the  database
-const user = await posts.findOne({username})
+const user = await users.findOne({username})
 if(!user){
     return res.status(404).json({
         message:"username  is not found. Invalid  login credentials",
@@ -126,4 +155,5 @@ const serializerUser = user =>{
 
 
 
-module.exports={serializerUser,userLogin,userRegister,userAuth,checkRole}
+module.exports={
+    serializerUser,userLogin,userRegister,userAuth,checkRole,mail}

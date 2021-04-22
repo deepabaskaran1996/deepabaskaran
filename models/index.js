@@ -7,8 +7,8 @@ const passport = require("passport")
 
 
 //import routes
-const authRoute = require('../user/route')
-const userRoute= require('../controller/routecontroller')
+const authRoute = require('../route/authroute')
+const userRoute= require('../route/productroute')
 // require("../controller/token")(passport)
 
 //middlewares

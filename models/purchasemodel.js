@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 
-const productSchema =  mongoose.Schema({
+const purchaseSchema =  mongoose.Schema({
     OrderDate:{
         type:String,
     },
-    Region:{
-        type:String,
+    Country:{
+    type:String,
     },
-   Rep:{
+  name:{
     type:String,
     required:true
    },
@@ -20,20 +20,23 @@ const productSchema =  mongoose.Schema({
     type:Number,
     required:true
    },
-   UnitCost:{
+   Price:{
     type:String,
     required:true
    },
-Total:{
+ModelName:{
     type:String,
     required:true
 },
-Date:{
-    type:Date,
-    default:Date.now
+phoneColor:{
+    type:String
 },
+SIMType:{
+    type:String
+}
+
 
 });
 
 
-module.exports = mongoose.model('product',productSchema)
+module.exports = mongoose.model('purchase',purchaseSchema)
