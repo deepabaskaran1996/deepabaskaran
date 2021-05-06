@@ -5,33 +5,6 @@ const {SECRET} = require('../models/app')
 const passport = require("passport")
 const nodemailer = require("nodemailer")
 
-
-const mail = async (req,  res) => {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-          auth: {
-            user:  process.env.SMTP_USERNAME,
-            pass:  process.env.SMTP_PASSWORD
-          }
-        });
-    var mailOptions = {
-            from:'deepabaskaran.b@gmail.com',
-            to:'deepa.doodleblue@gmail.com',
-            subject:'Sending Email using Node.js',
-            html: ` '<p>Click
-            <a href="http://localhost:3000">here</a>
-            welcome to my website</p>'`
-         }
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            console.log(error)
-        } else{
-            console.log('Email sent:' + info.response)
-        }
-        res.send('sending successfully')
-    })
-    }
-
 //register to (admin,superadmin,user)
 const userRegister = async (userDet,role,res)=>{
 //validate the username
@@ -46,6 +19,31 @@ try {
     }
     //validate the email
     let emailNotRegistered = await validateEmail(userDet.email);
+    const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                      auth: {
+                        user:  process.env.SMTP_USERNAME,
+                        pass:  process.env.SMTP_PASSWORD
+            }
+                    });
+                var mailOptions = {
+                        from:'deepabaskaran.b@gmail.com',
+                        to:emailNotRegistered,
+                        subject:'Sending Email using Node.js',
+                        html: ` '<p>Click<a href="http://localhost:3000">here</a>welcome to my website</p>'`
+        }
+                transporter.sendMail(mailOptions, function(error, info){
+                    if(error){
+                        console.log(error)
+                    } else{
+                        console.log('Email sent:' + info.response)
+                    }
+                    res.send('sending successfully')
+                })
+            res.json({
+                message:"signup successful"
+            })
+
     if(!emailNotRegistered){
         return res.status(400).json({
             message:`Email is already registered`,
@@ -79,6 +77,7 @@ return res.status(500).json({
 }
 }
 
+//valid login
 const userLogin = async(userCred,role,res) =>{
 let {username,password} = userCred;
 //first check if the username is in the  database
@@ -104,14 +103,12 @@ if(!isMatch){
 let token = jwt.sign( {
     user_id:user._id,
     role:user.role,
-    username:user.username,
-    email:user.email
+    username:user.username
 },
 SECRET,{expiresIn:"7 days"})
 let result ={
     username:user.username,
     role:user.role,
-    email:user.email,
     token:`Bearer ${token}`,
     expiresIn:168
 }
@@ -138,6 +135,7 @@ const validateUsername = async username => {
     return user? false:true;
 }
 
+//passport jwt  middleware
 const userAuth = passport.authenticate("jwt",{session:false});
 
 const validateEmail = async email => {
@@ -148,12 +146,14 @@ const validateEmail = async email => {
 const serializerUser = user =>{
     return{
         username:user.username,
-        email:user.email
+        email:user.email,
+        role:user.role,
+        name:user.name,
+        password:user.password
     }
 }
 
 
 
-
 module.exports={
-    serializerUser,userLogin,userRegister,userAuth,checkRole,mail}
+    serializerUser,userLogin,userRegister,userAuth,checkRole}

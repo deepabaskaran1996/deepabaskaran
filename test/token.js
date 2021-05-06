@@ -1,5 +1,5 @@
-const posts = require('../models/rolemodel')
-const {SECRET} = require('./app')
+const User = require('../models/rolemodel')
+const {SECRET} = require('../models/app')
 var {Strategy,ExtractJwt} = require('passport-jwt')
 const passport = require('passport')
 
@@ -10,7 +10,7 @@ const opts ={
 
 module.exports=(passport) =>{
     passport.use(new Strategy(opts, async(payload, done)=>{
-        await posts.findById(payload.user_id).then(async user =>{
+        await User.findById(payload.user_id).then(async user =>{
             if(user){
                 return done(null,user)
             }

@@ -3,23 +3,10 @@ var fs = require('file-system');
 const csv = require('csv-parser');
 const csvtojson = require("csvtojson");
 const purchase=require("../models/purchasemodel")
+const transaction=require("../models/transactionmodel")
 
 
-//get to all csv file store to monogo db 
-async function insertData(req, res) {
-  try {
-    const data = await csvtojson()
-    .fromFile("src/test/data.csv");
-      console.log("csvData", data)
-   const answer = await product.insertMany(data);
-    console.log('Done!');
-    res.send(answer)
-    process.exit();
-  } catch(e) {
-    console.log(e);z
-    process.exit();
-  }
-};
+
 //update product details
 
 const UpdateProduct =    function (req, res) {
@@ -51,8 +38,8 @@ const PurchaseData = async (req,  res) => {
   SIMType:req.body.SIMType
   });
 try {
-  const newUser = await order.save();
-  res.status(201).json({ newUser });
+  const PurchaseList = await order.save();
+  res.status(201).json({ PurchaseList });
 } catch (err) {
   res.status(400).json({ message: err.message });
 }
@@ -72,6 +59,8 @@ const findingData = async (req,  res) => {
           res.json({data})
       })
 }
+
+//get purchase details using users name
 const findingName = async (req,  res) => {
   purchase.find(
       { name: req.query.name}
@@ -97,31 +86,47 @@ const AddingProduct = async (req,  res) => {
         Total:req.body.Total
       });
       try {
-        const newUser = await stockadd.save();
-        res.status(201).json({ newUser });
+        const Products = await stockadd.save();
+        res.status(201).json({ Products });
       } catch (err) {
         res.status(400).json({ message: err.message });
       }
 }
 
-//add data in csv file
-const AddingData = async (req,  res) => {
-  const csv = new product(
-    {OrderDate: req.body.OrderDate,
-        Region: req.body.Region,
-        Rep: req.body.Rep,
-        Item:req.body.Item,
-        Units: req.body.Units,
-        UnitCost:req.body.UnitCost,
+//transaction details store in mongo db
+const transactionDetails = async (req,  res) => {
+  const addDetails = new transaction({
+      OrderDate: req.body.OrderDate,
+      Country: req.body.Country,
+      OrderPerson: req.body.OrderPerson,
+      OrderItem:req.body.OrderItem,
+      OrderUnits: req.body.OrderUnits,
+      OrderPrice:req.body.OrderPrice,
         Total:req.body.Total
       });
-
-      fs.appendFile('src/test/data.csv', csv ,function (err) {
-  if (err) throw err;
-  res.send("successfully saved data")
-  console.log('Saved!');
-});
+      try {
+        const Details = await addDetails.save();
+        res.status(201).json({ Details });
+      } catch (err) {
+        res.status(400).json({ message: err.message });
+      }
 }
+// csv file data store to monogo db 
+async function insertData(req, res) {
+  try {
+    const data = await csvtojson()
+    .fromFile("src/test/data.csv");
+      console.log("csvData", data)
+   const answer = await product.insertMany(data);
+    console.log('Done!');
+    res.send(answer)
+    process.exit();
+  } catch(e) {
+    console.log(e);z
+    process.exit();
+  }
+};
+
 //delete product
 const DeleteData = async (req,  res) => {
   const id = req.query.id;
@@ -148,7 +153,7 @@ const DeleteData = async (req,  res) => {
 //read data from csvfile
 const fileData = async (req,  res) => {
   const results = []
-  
+
   fs.createReadStream("src/test/data.csv")
   .pipe(csv({}))
   .on('data',(data) => results.push(data))
@@ -156,9 +161,10 @@ const fileData = async (req,  res) => {
       console.log(results)
       res.send(results)
   })
-  
+
   }
-  
+
 
 module.exports={
-  insertData,fileData,AddingData,PurchaseData,findingData,findingName,AddingProduct,DeleteData,UpdateProduct}
+  fileData,insertData,PurchaseData,findingData,findingName,AddingProduct,DeleteData,UpdateProduct,transactionDetails
+}

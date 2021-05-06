@@ -1,42 +1,37 @@
 const mongoose = require('mongoose');
 
 
-const purchaseSchema =  mongoose.Schema({
+const transactionSchema =  mongoose.Schema({
     OrderDate:{
         type:String,
+        required:true
     },
     Country:{
     type:String,
+    required:true
     },
-  name:{
+    OrderPerson:{
     type:String,
     required:true
    },
-   Item:{
+   OrderItem:{
     type:String,
     required:true
    },
-   Units:{
+   OrderUnits:{
     type:Number,
     required:true
    },
-   Price:{
+   OrderPrice:{
     type:String,
     required:true
    },
-ModelName:{
+   Total:{
     type:String,
-    },
-phoneColor:{
-    type:String,
-    },
-
-SIMType:{
-    type:String
-}
-
+    required:true
+   }
 
 });
 
 
-module.exports = mongoose.model('purchase',purchaseSchema)
+module.exports = mongoose.model('transaction',transactionSchema)

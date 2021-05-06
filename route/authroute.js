@@ -1,13 +1,13 @@
 const router = require('express').Router();
-const {
-  mail,userRegister,userLogin,userAuth,serializerUser,checkRole } = require('../controller/authcontroller')
+const {userRegister,userLogin,userAuth,serializerUser,checkRole } = require('../controller/authcontroller')
 
 
 //users registration route
-router.post('/reg-user',mail,async(req,res)=>{
+router.post('/reg-user',async(req,res)=>{
     console.log(req.body)
+
     await userRegister(req.body, "user",res)
-    res.send("successfully register your account")
+    // res.send("successfully register your account")
 })
 //mail inside route
 router.get('/', async (req,  res) => {
@@ -33,7 +33,7 @@ router.post('/login-admin',async(req,res)=>{
 router.post('/login-superadmin',async(req,res)=>{
     await userLogin(req.body,"superadmin",res)
 })
-//profile route
+//all users get  profile route
 router.get('/profile',userAuth,async(req,res)=>{
  return res.json(serializerUser(req.user))
 })
@@ -49,6 +49,7 @@ router.get('/admin-protected',userAuth,checkRole(['admin',"user"]),async(req,res
 router.get('/superadmin-protected',userAuth,checkRole(['superadmin',"admin"]),async(req,res)=>{
     return res.json(serializerUser(req.user))
 })
+
 
 
 

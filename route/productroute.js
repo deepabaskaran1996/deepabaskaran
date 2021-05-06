@@ -1,19 +1,23 @@
 const users = require('express').Router();
 
-const {insertData,fileData,AddingData,PurchaseData,findingData,findingName,AddingProduct,DeleteData,UpdateProduct
+const {
+  fileData,insertData,PurchaseData,findingData,findingName,AddingProduct,DeleteData,UpdateProduct,transactionDetails
 } = require('../controller/productcontroller')
 
+//transaction details store in mongo db
+users.post('/transaction', (req, res) => {
+  transactionDetails(req, res)
+})
 //insert csv file in database
 users.post('/product', (req, res) => {
-    insertData(req, res)
-  })
-
+  insertData(req, res)
+})
 //purchase api
-      users.post("/purchase", async (req, res) => {
+      users.post("/purchase", PurchaseData,async (req, res) => {
         console.log(req.body,"i am here")
-        PurchaseData(req,res)
-
-      })
+        await DeleteData(req.body, "user",res)
+        res.send("successfully purchase items")
+   })
 //find purchase items
       users.get('/items',async (req,res)=> {
         findingData(req,res)
@@ -33,15 +37,11 @@ users.post('/addProduct', async (req, res)=>{
   AddingProduct(req,res)
     })
 //update  stack data
-users.patch('/',async (req,res)=> {
+users.patch('/update',async (req,res)=> {
   UpdateProduct(req,res)
 });
 //get csv file data
 users.get('/stack', async (req,  res) => {
   fileData(req,res)
 })
-//add product in csv file
-users.post('/add', async (req, res)=>{
-      AddingData(req,res)
-        })
   module.exports = users;

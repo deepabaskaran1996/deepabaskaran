@@ -5,28 +5,22 @@ const port = 3000
 require("dotenv").config() //to use env variables
 const passport = require("passport")
 
+//middlewares
+app.use(express.json());
 
 //import routes
 const authRoute = require('../route/authroute')
 const userRoute= require('../route/productroute')
-// require("../controller/token")(passport)
-
-//middlewares
-app.use(express.json());
-// app.use(express.urlencoded())
+// require("../test/token")(passport)
 
 //route middlewares
 app.use('/',authRoute)
-app.use(passport.initialize());
 app.use("/user",userRoute)
+app.use(passport.initialize());
 
 
 
-
-
-
-
-
+// app.use(express.urlencoded())
 
 app.listen(port,() => {
     console.log("server listening in port",port)

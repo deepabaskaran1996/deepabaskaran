@@ -1,30 +1,30 @@
-OrderDate,Region,Rep,Item,Units,UnitCost,Total
-01/06/2021, East, Jones, Pencil, 95, ₹1.99, ₹189.05
-01/23/2021, Central, Kivell, Binder, 50, ₹19.99, ₹999.5
-02/09/2021, Central, Jardine, Pencil, 36, ₹4.99, ₹179.64
-02/26/2021, Central, Gill, Pen, 27, ₹19.99, ₹539.73
-03/15/2021, West, Sorvino, Pencil, 56, ₹2.99, ₹167.44
-01/15/2021, Central, Gill, Binder, 46, ₹8.99, ₹413.54
-02/01/2021, Central, Smith, Binder, 87, ₹15, ₹1,305.00
-02/18/2021, East, Jones, Binder, 4, ₹4.99, ₹19.96
-03/07/2021, West, Sorvino, Binder, 7, ₹19.99, ₹139.93
-03/24/2021, Central, Jardine, Pen Set, 50, ₹4.99, ₹249.5
-04/01/2021, East, Jones, Binder, 60, ₹4.99, ₹299.4
-04/18/2020, Central, Andrews, Pencil, 75, ₹1.99, ₹149.25
-05/05/2020, Central, Jardine, Pencil, 90, ₹4.99, ₹449.1
-05/22/2020, West, Thompson, Pencil, 32, ₹1.99, ₹63.68
-06/08/2020, East, Jones, Binder, 60, ₹8.99, ₹539.4
-06/25/2020, Central, Morgan, Pencil, 90, ₹4.99, ₹449.1
-07/12/2020, East, Howard, Binder, 29, ₹1.99, ₹57.71
-07/29/2020, East, Parent, Binder, 81, ₹19.99, ₹1,619.19
-08/15/2020, East, Jones, Pencil, 35, ₹4.99, ₹174.65
-09/01/2020, Central, Smith, Desk, 2, ₹125, ₹250
-09/18/2020, East, Jones, Pen Set, 16, ₹15.99, ₹255.84
-10/05/2020, Central, Morgan, Binder, 28, ₹8.99, ₹251.72
-10/22/2020, East, Jones, Pen, 64, ₹8.99, ₹575.36
-11/08/2020, East, Parent, Pen, 15, ₹19.99, ₹299.85
-11/25/2020, Central, Kivell, Pen Set, 96, ₹4.99, ₹479.04
-12/12/2020, Central, Smith, Pencil, 67, ₹1.29, ₹86.43
+Id,OrderDate,Region,Rep,Item,Units,UnitCost,Total,created
+1,01/06/2021, East, Jones, Pencil, 95, ₹1.99, ₹189.05,true
+1,01/23/2021, Central, Kivell, Binder, 50, ₹19.99, ₹999.5,true
+1,02/09/2021, Central, Jardine, Pencil, 36, ₹4.99, ₹179.64,true
+1,02/26/2021, Central, Gill, Pen, 27, ₹19.99, ₹539.73,true
+1,03/15/2021, West, Sorvino, Pencil, 56, ₹2.99, ₹167.44,true
+1,01/15/2021, Central, Gill, Binder, 46, ₹8.99, ₹413.54,true
+1,02/01/2021, Central, Smith, Binder, 87, ₹15, ₹1,305.00,true
+1,02/18/2021, East, Jones, Binder, 4, ₹4.99, ₹19.96,true
+1,03/07/2021, West, Sorvino, Binder, 7, ₹19.99, ₹139.93,true
+1,03/24/2021, Central, Jardine, Pen Set, 50, ₹4.99, ₹249.5
+1,04/01/2021, East, Jones, Binder, 60, ₹4.99, ₹299.4
+1,04/18/2020, Central, Andrews, Pencil, 75, ₹1.99, ₹149.25
+1,05/05/2020, Central, Jardine, Pencil, 90, ₹4.99, ₹449.1
+1,05/22/2020, West, Thompson, Pencil, 32, ₹1.99, ₹63.68
+1,06/08/2020, East, Jones, Binder, 60, ₹8.99, ₹539.4
+1,06/25/2020, Central, Morgan, Pencil, 90, ₹4.99, ₹449.1
+1,07/12/2020, East, Howard, Binder, 29, ₹1.99, ₹57.71
+1,07/29/2020, East, Parent, Binder, 81, ₹19.99, ₹1,619.19
+1,08/15/2020, East, Jones, Pencil, 35, ₹4.99, ₹174.65
+1,09/01/2020, Central, Smith, Desk, 2, ₹125, ₹250
+1,09/18/2020, East, Jones, Pen Set, 16, ₹15.99, ₹255.84
+1,10/05/2020, Central, Morgan, Binder, 28, ₹8.99, ₹251.72
+1,10/22/2020, East, Jones, Pen, 64, ₹8.99, ₹575.36
+1,11/08/2020, East, Parent, Pen, 15, ₹19.99, ₹299.85
+1,11/25/2020, Central, Kivell, Pen Set, 96, ₹4.99, ₹479.04
+1,12/12/2020, Central, Smith, Pencil, 67, ₹1.29, ₹86.43
 12/29/2020, East, Parent, Pen Set, 74, ₹15.99, ₹1,183.26
 04/10/2020, Central, Andrews, Pencil, 66, ₹1.99, ₹131.34
 04/27/2020, East, Howard, Pen, 96, ₹4.99, ₹479.04
@@ -42,4 +42,3 @@ OrderDate,Region,Rep,Item,Units,UnitCost,Total
 11/17/2020, Central, Jardine, Binder, 11, ₹4.99, ₹54.89
 12/04/2020, Central, Kalai, Binder, 94, ₹19.99, ₹1,879.06
 12/21/2020, Central, Andrews, Binder, 28, ₹4.99, ₹139.72
-
