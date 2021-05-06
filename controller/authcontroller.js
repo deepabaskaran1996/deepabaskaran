@@ -28,7 +28,7 @@ try {
                     });
                 var mailOptions = {
                         from:'deepabaskaran.b@gmail.com',
-                        to:emailNotRegistered,
+                        to:userDet.email,
                         subject:'Sending Email using Node.js',
                         html: ` '<p>Click<a href="http://localhost:3000">here</a>welcome to my website</p>'`
         }
