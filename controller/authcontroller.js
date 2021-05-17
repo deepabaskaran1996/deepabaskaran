@@ -5,7 +5,7 @@ const {SECRET} = require('../models/app')
 const passport = require("passport")
 const nodemailer = require("nodemailer")
 
-//register to (admin,superadmin,user)
+
 const userRegister = async (userDet,role,res)=>{
 //validate the username
 try {
@@ -19,37 +19,20 @@ try {
     }
     //validate the email
     let emailNotRegistered = await validateEmail(userDet.email);
-    const transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                      auth: {
-                        user:  process.env.SMTP_USERNAME,
-                        pass:  process.env.SMTP_PASSWORD
-            }
-                    });
-                var mailOptions = {
-                        from:'deepabaskaran.b@gmail.com',
-                        to:userDet.email,
-                        subject:'Sending Email using Node.js',
-                        html: ` '<p>Click<a href="http://localhost:3000">here</a>welcome to my website</p>'`
-        }
-                transporter.sendMail(mailOptions, function(error, info){
-                    if(error){
-                        console.log(error)
-                    } else{
-                        console.log('Email sent:' + info.response)
-                    }
-                    res.send('sending successfully')
-                })
-            res.json({
-                message:"signup successful"
-            })
-
     if(!emailNotRegistered){
         return res.status(400).json({
             message:`Email is already registered`,
             success:false
         })
     }
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+          auth: {
+            user:  process.env.SMTP_USERNAME,
+            pass:  process.env.SMTP_PASSWORD
+}
+        });
+
     //get the  hashed password
     const hashPassword = await bcrypt.hash(userDet.password, 12)
     console.log(hashPassword)
@@ -59,7 +42,26 @@ try {
         password:hashPassword,
         role
     })
+
     await newUser.save();
+    var id=newUser._id
+    var mailOptions = {
+        from:'deepabaskaran.b@gmail.com',
+        to:userDet.email,
+        subject:'Sending Email using Node.js',
+        
+    html:  `<p>Click<a href="http://localhost:3000/users/${id}">here</a>welcome to my website</p>`
+
+}
+transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+        console.log(error)
+    } else{
+        console.log('Email sent:' + info.response)
+    }
+    res.send('register and mail sending successfully')
+})
+
     return res.status(201).json({
         message:"Hurry! now you are successfully registered.please now login",
         success:true
@@ -95,6 +97,14 @@ if(user.role !==  role){
         success:false
     })
 }
+//we will check the verified true or false
+if(user.verified !==  true){
+    return res.status(403).json({
+        message:"first check your mail verification  link",
+        success:false
+    })
+}
+
 //that means user is  existing and trying to signin for th  right portal
 //now check for the password
 let isMatch = await bcrypt.compare(password, user.password)
@@ -154,6 +164,13 @@ const serializerUser = user =>{
 }
 
 
+//mail  inside url verified
+const verifyUser = async(req,res) =>{
+    const id = req.params.id;
+    await users.findOneAndUpdate({ _id: id },
+         {verified: true});
+res.send("successfully register your account")
+}
 
 module.exports={
-    serializerUser,userLogin,userRegister,userAuth,checkRole}
+    serializerUser,userLogin,userRegister,userAuth,checkRole,verifyUser}

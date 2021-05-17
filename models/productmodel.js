@@ -36,4 +36,4 @@ Date:{
 });
 
 
-module.exports = mongoose.model('product',productSchema)
+module.exports = mongoose.model('productlist',productSchema)

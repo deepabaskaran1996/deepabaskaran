@@ -1,4 +1,4 @@
-const product = require("../models/productmodel")
+const productlist = require("../models/productmodel")
 var fs = require('file-system');
 const csv = require('csv-parser');
 const csvtojson = require("csvtojson");
@@ -10,7 +10,7 @@ const transaction=require("../models/transactionmodel")
 //update product details
 
 const UpdateProduct =    function (req, res) {
-  product.findOneAndUpdate(
+  productlist.findOneAndUpdate(
     {_id:req.query._id},
     {$set:req.body},
     {new:true},
@@ -43,6 +43,7 @@ try {
 } catch (err) {
   res.status(400).json({ message: err.message });
 }
+res.send("successfully purchase items")
 }
 //get items in database
 const findingData = async (req,  res) => {
@@ -76,7 +77,7 @@ const findingName = async (req,  res) => {
 }
 //add data in mongodb
 const AddingProduct = async (req,  res) => {
-  const stockadd = new product(
+  const productAdd = new productlist(
     {OrderDate: req.body.OrderDate,
         Region: req.body.Region,
         Rep: req.body.Rep,
@@ -86,7 +87,7 @@ const AddingProduct = async (req,  res) => {
         Total:req.body.Total
       });
       try {
-        const Products = await stockadd.save();
+        const Products = await productAdd.save();
         res.status(201).json({ Products });
       } catch (err) {
         res.status(400).json({ message: err.message });
@@ -131,7 +132,7 @@ async function insertData(req, res) {
 const DeleteData = async (req,  res) => {
   const id = req.query.id;
 
-  product.findByIdAndRemove(id)
+  productlist.findByIdAndRemove(id)
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -139,7 +140,8 @@ const DeleteData = async (req,  res) => {
         });
       } else {
         res.send({
-          message: "Tutorial was deleted successfully!"
+          message: "Tutorial was deleted successfully!",
+          success:true
         });
       }
     })
@@ -163,8 +165,24 @@ const fileData = async (req,  res) => {
   })
 
   }
+//stack count
 
+ const addQuantity = async (req,res) => {
+  productlist.updateOne(
+      { _id: req.product._id},
+      {$inc: {stock: req.body.count  }}
+  )
+  .exec((err,data) =>{
+          if(err){
+              return res.status(400).json({
+                  error:"No products found"
+              })
+          }
+          res.json({data})
+      })
+}
 
 module.exports={
-  fileData,insertData,PurchaseData,findingData,findingName,AddingProduct,DeleteData,UpdateProduct,transactionDetails
+  fileData,insertData,PurchaseData,findingData,findingName,AddingProduct,DeleteData,
+  UpdateProduct,transactionDetails,addQuantity
 }

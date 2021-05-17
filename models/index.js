@@ -11,7 +11,7 @@ app.use(express.json());
 //import routes
 const authRoute = require('../route/authroute')
 const userRoute= require('../route/productroute')
-// require("../test/token")(passport)
+require("../test/token")(passport)
 
 //route middlewares
 app.use('/',authRoute)
