@@ -5,10 +5,10 @@ const productSchema =  mongoose.Schema({
     OrderDate:{
         type:String,
     },
-    Region:{
+    country:{
         type:String,
     },
-   Rep:{
+   name:{
     type:String,
     required:true
    },
@@ -16,6 +16,11 @@ const productSchema =  mongoose.Schema({
     type:String,
     required:true
    },
+//    modelName:{
+//     type:String,
+//     required:true,
+//     index:true
+//    },
    Units:{
     type:Number,
     required:true
@@ -24,10 +29,10 @@ const productSchema =  mongoose.Schema({
     type:String,
     required:true
    },
-Total:{
-    type:String,
-    required:true
-},
+// Total:{
+//     type:String,
+//     required:true
+// },
 Date:{
     type:Date,
     default:Date.now
@@ -36,4 +41,4 @@ Date:{
 });
 
 
-module.exports = mongoose.model('productlist',productSchema)
+module.exports = mongoose.model('productlists',productSchema)

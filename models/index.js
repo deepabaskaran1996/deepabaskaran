@@ -19,7 +19,6 @@ app.use("/user",userRoute)
 app.use(passport.initialize());
 
 
-
 // app.use(express.urlencoded())
 
 app.listen(port,() => {
